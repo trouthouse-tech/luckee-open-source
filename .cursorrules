@@ -1,0 +1,81 @@
+# Luckee Web - Cursor Rules
+
+## Redux State Management Rules
+
+### 1. No Object Props in Redux State
+- **NEVER store complex objects directly as props in Redux slices**
+- **ALWAYS use separate `current` slices for editing state**
+- Use primitive values (IDs, booleans, strings) in builder slices
+- Use dedicated `current` slices for object editing (e.g., `currentPersona`, `currentUser`)
+
+### 2. Current Slice Pattern
+- For editing any entity, create a `current[Entity]` slice in `src/store/current/`
+- Examples: `currentPersona`, `currentUser`
+- These slices hold the full object being edited
+- Builder slices only hold IDs, flags, and primitive state
+
+### 3. Modal State Management
+- Modal open/close state can be in builder slices (boolean values)
+- **NEVER store the editing object in the same slice as modal state**
+- Use `current` slices to manage what's being edited
+- Use builder slices only for UI state (isOpen, isLoading, etc.)
+
+### 4. Reference Issues Prevention
+- Storing objects in Redux state causes reference issues
+- Objects should be normalized and stored by ID
+- Use selectors to reconstruct objects when needed
+- Prefer primitive values in component state and Redux state
+
+### 5. Keep Slice Reducers Simple - Business Logic in Thunks
+- **NEVER put complex business logic or calculations in slice reducers**
+- **Reducers should only update state, not compute or derive values**
+- **ALWAYS use thunks for business logic, calculations, and side effects**
+- Reducers must be pure and simple - just update the state with provided values
+- Thunks handle all complex logic and dispatch simple updates to slices
+
+### 6. Thunk Pattern - NEVER Use createAsyncThunk
+- **NEVER use Redux Toolkit's `createAsyncThunk`**
+- **ALWAYS use the AppThunk pattern with manual thunks**
+- Thunks should return `Promise<200 | 400 | 500>` status codes
+- Import `AppThunk` type from `'@/src/store'`
+- Use `(dispatch, getState)` pattern for accessing state and dispatch
+
+## File Organization Rules
+
+### 1. Single Function Per File
+- Each file should contain exactly ONE function, class, or interface
+- File names should match the function/class/interface name exactly
+- Use kebab-case for file names (e.g., `send-chat-message.ts`)
+
+### 2. Index Files Required
+- Every folder must have an `index.ts` file
+- The `index.ts` file must export ALL functions/files declared in that folder
+- Use named exports, not default exports
+- Re-export from subdirectories using `export * from './subfolder'`
+
+### 3. Import/Export Patterns
+- Always use named imports/exports
+- Never use default exports
+- Import from index files, not individual files
+- Example: `import { functionName } from './folder'` not `import { functionName } from './folder/function-name'`
+
+### 4. Component Logic Placement
+- Logic should be declared inside each React component itself rather than using callbacks
+- Components should be self-contained and manage their own state
+- Move complex sections into their own folder or component
+- Use Redux selectors directly in components instead of prop drilling
+
+### 5. Styling Rules
+- **NO inline styling** - Never use inline styles or className with direct Tailwind classes
+- **NO separate styles files** - Never create local `.css`, `.scss`, or `.module.css` files
+- **Styles object pattern** - Always define styles using a `styles` const object after the component function
+- **Template literal syntax** - Use backticks (``) for all style definitions
+- Always use `export const` instead of `export function`
+
+## Architecture Principles
+
+1. **Utilities are reusable** - Extract functions to `src/utils/{domain}/` when used 2+ times
+2. **Packages organize features** - Each feature lives in `src/packages/{feature}/`
+3. **Components call thunks directly** - No custom hooks that just wrap thunks
+4. **Constants are named** - No magic numbers, extract to domain constants
+5. **Use `type` not `interface`** - For consistency

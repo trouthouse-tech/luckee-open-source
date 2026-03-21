@@ -1,0 +1,1 @@
+export { tiptapContentToPlainText } from './tiptapContentToPlainText';

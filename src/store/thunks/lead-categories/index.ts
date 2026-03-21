@@ -1,0 +1,1 @@
+export { getAllLeadCategoriesThunk } from './getAllLeadCategoriesThunk';

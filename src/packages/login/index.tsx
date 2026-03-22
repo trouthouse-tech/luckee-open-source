@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/src/store/hooks';
 import { logInThunk, initializeAuthThunk, signInWithGoogleThunk } from '@/src/store/thunks/auth';
+import { DASHBOARD_PATH } from '@/src/config/routes';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -21,7 +22,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (hasInitialized && isAuthenticated) {
-      router.replace('/');
+      router.replace(DASHBOARD_PATH);
     }
   }, [hasInitialized, isAuthenticated, router]);
 
@@ -34,7 +35,7 @@ export const Login = () => {
       const result = await dispatch(logInThunk({ email, password }));
 
       if (result === 200) {
-        router.replace('/');
+        router.replace(DASHBOARD_PATH);
       } else {
         setError('Invalid email or password');
       }

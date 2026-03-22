@@ -1,6 +1,9 @@
 /**
  * Frontend route paths. Use these instead of hardcoded strings for navigation.
  */
+/** Authenticated app home (dashboard). Public marketing/docs: luckee-marketing repo. */
+export const DASHBOARD_PATH = '/dashboard';
+
 export const FIND_LEADS_PATH = '/leads/find';
 
 export const LEAD_DETAIL_PATH = '/lead-detail-page';

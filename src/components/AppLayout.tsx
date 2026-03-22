@@ -40,8 +40,8 @@ export const AppLayout = (props: AppLayoutProps) => {
   const activeNavigationLink = useMemo(() => {
     for (const link of navigationLinks) {
       if (isNavigationRoute(link)) {
-        if (link.href === '/') {
-          if (pathname === '/') return link;
+        if (link.href === '/dashboard') {
+          if (pathname === '/dashboard') return link;
           continue;
         }
         if (pathname === link.href || pathname.startsWith(`${link.href}/`)) {

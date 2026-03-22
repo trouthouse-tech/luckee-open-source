@@ -22,7 +22,7 @@ export const getNavigationLinks = (): NavigationLink[] => {
   return [
     {
       name: 'Dashboard',
-      href: '/',
+      href: '/dashboard',
     },
     {
       name: 'Leads',

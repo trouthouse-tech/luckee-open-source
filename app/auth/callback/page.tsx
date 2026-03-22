@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/src/store/hooks';
 import { authActions } from '@/src/store/config/auth';
 import { supabase } from '@/src/config/supabase';
+import { DASHBOARD_PATH } from '@/src/config/routes';
 
 /**
  * Auth Callback Page
@@ -72,7 +73,7 @@ export default function AuthCallbackPage() {
             setMessage('Authentication successful! Redirecting...');
             
             setTimeout(() => {
-              router.replace('/');
+              router.replace(DASHBOARD_PATH);
             }, 1500);
           }
         } else {

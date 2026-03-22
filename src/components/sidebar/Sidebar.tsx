@@ -24,8 +24,8 @@ export const Sidebar = () => {
 
   const isLinkActive = useCallback(
     (href: string): boolean => {
-      if (href === '/') {
-        return pathname === '/';
+      if (href === '/dashboard') {
+        return pathname === '/dashboard';
       }
       return pathname.startsWith(href);
     },

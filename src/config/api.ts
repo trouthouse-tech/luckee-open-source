@@ -24,7 +24,7 @@ const getDefaultUrl = (): string => {
     return process.env.NEXT_PUBLIC_API_URL;
   }
   
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005';
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3053';
 };
 
 const getServerUrl = (): string => {
@@ -36,12 +36,12 @@ const getServerUrl = (): string => {
     return process.env.NEXT_PUBLIC_SERVER_URL;
   }
   
-  // Default to localhost:3005 for mentorai-server (dev)
-  return process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3005';
+  // Default to localhost:3053 for luckee-open-source-express (dev)
+  return process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3053';
 };
 
 export const API_CONFIG = {
-  LOCAL: 'http://localhost:3005',
+  LOCAL: 'http://localhost:3053',
   DEFAULT: getDefaultUrl(),
   SERVER_URL: getServerUrl(), // mentorai-server base URL
 } as const;

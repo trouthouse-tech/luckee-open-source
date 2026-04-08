@@ -4,12 +4,24 @@ import { supabase } from '@/src/config/supabase';
 export const signInWithGoogleThunk = (): AppThunk<Promise<200 | 500>> => {
   return async (): Promise<200 | 500> => {
     try {
-      const redirectBaseUrl = process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || window.location.origin;
+      const origin = window.location.origin;
+      const configuredBaseUrl = process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL?.trim();
+      const isCurrentOriginLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+      const isConfiguredUrlLocalhost = configuredBaseUrl
+        ? /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(configuredBaseUrl)
+        : false;
+
+      // Prevent production OAuth from being redirected to localhost when env vars are stale.
+      const redirectBaseUrl =
+        configuredBaseUrl && !(isConfiguredUrlLocalhost && !isCurrentOriginLocalhost)
+          ? configuredBaseUrl
+          : origin;
+      const normalizedRedirectBaseUrl = redirectBaseUrl.replace(/\/$/, '');
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${redirectBaseUrl}/auth/callback`,
+          redirectTo: `${normalizedRedirectBaseUrl}/auth/callback`,
         },
       });
 
